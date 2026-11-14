@@ -18,5 +18,6 @@ Você é um agente da Ordem e você tem investigado um certo grupo de cultistas 
 
 ## Como compilar e jogar:
 
-1. Compile: "gcc game.c -o game.exe"
-2. Execute: "./game.exe"
+1. Instale: Baixe o arquivo "game.c"
+2. Compile: No terminal, digite: "gcc game.c -o game.exe"
+3. Execute: Ainda no terminal, digite: "./game.exe"
