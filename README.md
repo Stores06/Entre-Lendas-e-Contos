@@ -12,9 +12,9 @@ Você é um agente da Ordem e você tem investigado um certo grupo de cultistas 
 
 | Classe       | Vida | Pontos de Esforço | Força | Agilidade | Defesa |   Habilidade Especial   |
 |--------------|------|-------------------|-------|-----------|--------|-------------------------|
-| Combatente   |  41  |        13         |   3   |     1     |   16   |     Ataque Especial     |
-| Especialista |  29  |        16         |   2   |     3     |   14   |         Perito          |
-| Ocultista    |  21  |        36         |   1   |     2     |   12   | Tatuagens Ritualísticas |
+| Combatente   |  44  |        13         |   3   |     1     |   16   |     Ataque Especial     |
+| Especialista |  33  |        16         |   2   |     3     |   14   |         Perito          |
+| Ocultista    |  25  |        36         |   1   |     2     |   12   | Tatuagens Ritualísticas |
 
 ## Como compilar e jogar:
 
