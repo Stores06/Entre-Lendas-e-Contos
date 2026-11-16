@@ -1,7 +1,7 @@
 # Entre-Lendas-e-Contos
 Um código de um jogo RPG baseado em Ordem Paranormal, com algumas adaptações, o jogo possui 3 fases e 3 monstros diferentes para cada uma, a progressão de nível é feita através de combates e salas de recompensa, tendo o combate o foco principal do jogo.
 
-**Aluno:** João Manoel Oliveira da Silva
+**Aluno:** João Manoel Oliveira da Silva 
 **Matricula:** 20260013367
 
 ## História:
@@ -21,3 +21,5 @@ Você é um agente da Ordem e você tem investigado um certo grupo de cultistas 
 1. Instale: Baixe o arquivo "game.c"
 2. Compile: No terminal, digite: "gcc game.c -o game.exe"
 3. Execute: Ainda no terminal, digite: "./game.exe"
+
+**Vídeo gameplay:** https://youtu.be/lfxw5gswukU
