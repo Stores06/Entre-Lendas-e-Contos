@@ -11,8 +11,7 @@ int Dados (int valor) {
 }
 
 
-//LIMPEZA:
-
+//LIMPEZA: 
 void limparBuffer(void) {
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
@@ -24,9 +23,18 @@ void limparTela(void) {
 	#else
 		system("clear");
 	#endif
-}	
-//Criacao de personagem:
+}
 
+
+//PAUSA:
+void pausar(void) {
+	printf("Pressione <ENTER> para continuar.\n");
+	limparBuffer();
+	getchar();
+}
+
+	
+//Criacao de personagem:
 typedef struct {
 	int PVMAX;
 	int PVAtual;
@@ -84,11 +92,12 @@ Arma escolherArma (Arma *a) {
 			printf("%d - %s\n", i+1, a[i].nome);
 			printf("Dano: %dd%d\n", a[i].quantDado, a[i].tipoDado);
 			printf("Margem de ameaca: %d\n", a[i].margemAmeaca);
-			printf("Multiplicador de Crítico: x%d\n\n", a[i].multi);
+			printf("Multiplicador de Critico: x%d\n\n", a[i].multi);
 		}
+		printf("Escolha: ");
 		if (scanf("%d", &escolha) != 1) {
 			printf("Escolha invalida, tente novamente.\n");
-			limparBuffer();
+			pausar();
 			escolha = 0;
 		}
 		else if ((escolha < 1) || (escolha > 6)) {
@@ -126,8 +135,8 @@ void levelUp (Heroi *p) {
 		printf("\n[SUBIU DE NIVEL!] Parabens! Voce subiu para o nivel %d!\n", p->nivel);
 	}
 	if (p->classe == COMBATENTE) {
-		p->ficha.combatente.atributos.PVMAX += 13;
-		p->ficha.combatente.atributos.PVAtual += 13;
+		p->ficha.combatente.atributos.PVMAX += 16;
+		p->ficha.combatente.atributos.PVAtual += 16;
 		p->ficha.combatente.atributos.agilidade += 0;
 		p->ficha.combatente.atributos.forca += 1;
 		p->ficha.combatente.atributos.PEMAX += 2;
@@ -143,8 +152,8 @@ void levelUp (Heroi *p) {
 		}
 	}
 	else if (p->classe == ESPECIALISTA) {
-		p->ficha.especialista.atributos.PVMAX += 7;
-		p->ficha.especialista.atributos.PVAtual += 7;
+		p->ficha.especialista.atributos.PVMAX += 10;
+		p->ficha.especialista.atributos.PVAtual += 10;
 		p->ficha.especialista.atributos.agilidade += 1;
 		p->ficha.especialista.atributos.forca += 0;
 		p->ficha.especialista.atributos.PEMAX += 5;
@@ -160,8 +169,8 @@ void levelUp (Heroi *p) {
 		}
 	}
 	else if (p->classe == OCULTISTA) {
-		p->ficha.ocultista.atributos.PVMAX += 4;
-		p->ficha.ocultista.atributos.PVAtual += 4;
+		p->ficha.ocultista.atributos.PVMAX += 7;
+		p->ficha.ocultista.atributos.PVAtual += 7;
 		p->ficha.ocultista.atributos.agilidade += 1;
 		p->ficha.ocultista.atributos.forca += 0;
 		p->ficha.ocultista.atributos.PEMAX += 8;
@@ -177,15 +186,18 @@ void levelUp (Heroi *p) {
 		}
 	}
 	printf("E recebeu um aumento em seus atributos!\n");
+	pausar();
 }
 void ganhoXP (Heroi *p) {
 	if (p->nivel == 5) {
 		printf("Voce ja esta no nivel maximo, nao recebera mais XP.\n");
+		pausar();
 	}
 	else {
-		int xp = Dados(4);
+		int xp = Dados(6);
 		p->XP += xp;
-		printf("Voce recebeu %d de XP", xp);
+		printf("Voce recebeu %d de XP\n", xp);
+		pausar();
 		while (p->XP >= 10) {
 			p->XP -= 10;
 			levelUp(p);
@@ -204,24 +216,25 @@ int confirmarClasse(void) {
 		printf("3 - Ocultista\n");
 		if (scanf("%d", &escolha) != 1) {
 			printf("Escolha invalida, tente novamente.\n");
-			limparBuffer();
+			pausar();
 			escolha = 0;
 		}
 		switch(escolha) {
 			case 1:
 				limparTela();
-				printf("A classe Combatente e focada em ataques corpo a corpo, sendo a mais resistente e forte das 3, mas, em contra partida, e a que possui menos PE e tambem e a mais lenta. Sua habilidade especial e o Ataque especial, onde, no nivel 1, ao gastar 3PE recebe um bonus de +5 em testes de ataque e em dano, no nivel 3 o custo aumenta para 4PE e o bonus passa para +10 e no nivel 5 o custo aumenta para 5PE.\n\n");
+				printf("A classe Combatente e focada em ataques corpo a corpo, sendo a mais resistente e forte das 3, mas, em contra partida, e a que possui menos PE e tambem e a mais lenta. Sua habilidade especial e o Ataque especial, onde, no nivel 1, ao gastar 3PE recebe um bonus de +5 em testes de ataque e em dano, no nivel 3 o custo aumenta para 4PE e o bonus passa para +10 e no nivel 5 o custo aumenta para 5PE e o bonus para +15.\n\n");
 				printf("Deseja jogar com essa classe?\n");
 				printf("1 - Sim\n");
 				printf("2 - Nao\n");
 				if (scanf("%d", &confirmClasse) != 1) {
 					printf("Escolha invalida, tente novamente.\n");
-					limparBuffer();
+					pausar();
 					confirmClasse = 0;
 				}
 				if (confirmClasse == 1) {
 					CLASSE = 1;
 					printf("Voce escolheu a classe combatente.\n");
+					pausar();
 					break;
 				}
 				else if (confirmClasse == 2) {
@@ -229,22 +242,24 @@ int confirmarClasse(void) {
 				}
 				else {
 					printf("Opcao invalida, tente novamente.\n");
+					pausar();
 					continue;
 				}
 			case 2:
 				limparTela();
-				printf("A classe Especialista e focada em ataques a distancia com armas de disparo, sendo a classe mais rapida das 3, mas, em contra partida, os seus demais Status nao tem nenhum destaque, sendo mediano em todos. Sua habilidade especial e o Perito, onde, no nivel 1, ao gastar 3PE recebe um bonus de +1d6 em qualquer teste, não se aplica a rolagem de dano, no nivel 3 o custo aumenta para 4PE e o bonus para 1d8 e no nivel 5 o custo aumenta para 5PE e o bonus para 1d10, esse efeito dura apenas um turno.\n\n");
+				printf("A classe Especialista e focada em ataques a distancia com armas de disparo, sendo a classe mais rapida das 3, mas, em contra partida, os seus demais Status nao tem nenhum destaque, sendo mediano em todos. Sua habilidade especial e o Perito, onde, no nivel 1, ao gastar 3PE recebe um bonus de +1d6 em qualquer teste, nao se aplica a rolagem de dano, no nivel 3 o custo aumenta para 4PE e o bonus para +1d8 e no nivel 5 o custo aumenta para 5PE e o bonus para +1d10, esse efeito dura apenas um turno.\n\n");
 				printf("Deseja jogar com essa classe?\n");
 				printf("1 - Sim\n");
 				printf("2 - Nao\n");
 				if (scanf("%d", &confirmClasse) != 1) {
 					printf("Escolha invalida, tente novamente.\n");
-					limparBuffer();
+					pausar();
 					confirmClasse = 0;
 				}
 				if (confirmClasse == 1) {
 					CLASSE = 2;
 					printf("Voce escolheu a classe especialista.\n");
+					pausar();
 					break;
 				}
 				else if (confirmClasse == 2) {
@@ -252,22 +267,24 @@ int confirmarClasse(void) {
 				}
 				else {
 					printf("Opcao invalida, tente novamente.\n");
+					pausar();
 					continue;
 				}
 			case 3:
 				limparTela();
-				printf("A classe Ocultista e focada em conjurar rituais tendo um custo de 2PE para atacar, causando 3d6 de dano direto pois os rituais tem acerto garantido, com sua quantidade de PE sendo a maior entre as classes, em contra partida, é a menos resistente entre as 3 e nao causa dano critico. Sua habilidade especial sao as tatuagens ritualisticas, onde, ao gastar 10PE para ativa-la, o custo para conjurar rituais e zerado pelo resto do combate. Essa habilidade nao evolui com o passar dos niveis, mas o dano dos seus rituais aumentam, no nivel 3 passa a ser 4d6 e no nivel 5 passa para 5d6.\n\n");
+				printf("A classe Ocultista e focada em conjurar rituais tendo um custo de 2PE para atacar, causando 3d6 de dano direto pois os rituais tem acerto garantido, com sua quantidade de PE sendo a maior entre as classes, em contra partida, e a menos resistente entre as 3 e nao causa dano critico. Sua habilidade especial sao as tatuagens ritualisticas, onde, ao gastar 10PE para ativa-la, o custo para conjurar rituais e zerado pelo resto do combate. Essa habilidade nao evolui com o passar dos niveis, mas o dano dos seus rituais aumentam, no nivel 3 passa a ser 4d6 e no nivel 5 passa para 5d6.\n\n");
 				printf("Deseja jogar com essa classe?\n");
 				printf("1 - Sim\n");
 				printf("2 - Nao\n");
 				if (scanf("%d", &confirmClasse) != 1) {
 					printf("Escolha invalida, tente novamente.\n");
-					limparBuffer();
+					pausar();
 					confirmClasse = 0;
 				}
 				if (confirmClasse == 1) {
 					CLASSE = 3;
 					printf("Voce escolheu a classe ocultista.\n");
+					pausar();
 					break;
 				}
 				else if (confirmClasse == 2) {
@@ -275,10 +292,12 @@ int confirmarClasse(void) {
 				}
 				else {
 					printf("Opcao invalida, tente novamente.\n");
+					pausar();
 					continue;
 				}
 			default:
 				printf("Opcao invalida, tente novamente\n");
+				pausar();
 				continue;
 		}
 	} while ((CLASSE < 1) || (CLASSE > 3));
@@ -307,9 +326,11 @@ void habPerito (Heroi *p) {
 		p->ficha.especialista.perito = true;
 		p->ficha.especialista.bonusPerito = tipoDado;
 		printf("\n[PERITO ATIVADO] -%d PE +1d%d\n", custoPE, tipoDado);
+		pausar();
 	}
 	else {
 		printf("Voce nao tem PE suficiente para usar essa habilidade!\n");
+		pausar();
 	}
 }
 void habAtaqueEspecial (Heroi *p) {
@@ -332,9 +353,11 @@ void habAtaqueEspecial (Heroi *p) {
 		p->ficha.combatente.ataqueEspecial = true;
 		p->ficha.combatente.bonusAtaqueEspecial = bonusAtaqEsp;
 		printf("\n[ATAQUE ESPECIAL ATIVADO] -%d PE +%d no seu proximo ataque\n", custoPE, bonusAtaqEsp);
+		pausar();
 	}
 	else {
 		printf("Voce nao tem PE suficiente para usar essa habilidade!\n");
+		pausar();
 	}
 }
 void habTatuagem (Heroi *p) {
@@ -342,9 +365,11 @@ void habTatuagem (Heroi *p) {
 		p->ficha.ocultista.atributos.PEAtual -= 10;
 		p->ficha.ocultista.tatuagens = true;
 		printf("\n[TATUAGENS RITUALISTICAS ATIVADAS] -10 PE, custo para conjurar rituais zerado pelo resto do combate\n");
+		pausar();
 	}
 	else {
 		printf("Voce nao tem PE suficiente para usar essa habilidade!\n");
+		pausar();
 	}
 }
 void finalizarTurno (Heroi *p) {
@@ -386,13 +411,13 @@ Monstro monstros[9] = {
 	{"Esqueleto de lodo", 40, 40, 8, 5, 2, 6, 2},
 	{"Existido", 36, 36, 7, 5, 1, 4, 2},
 	//Fase 2:
-	{"Aracnasita", 75, 75, 17, 11, 2, 10, 2},
-	{"Ciborgue", 85, 85, 19, 10, 1, 10, 2},
-	{"Zumbi de sangue bestial", 80, 80, 17, 11, 2, 10, 2},
+	{"Aracnasita", 75, 75, 15, 11, 2, 10, 2},
+	{"Ciborgue", 85, 85, 17, 10, 1, 10, 2},
+	{"Zumbi de sangue bestial", 80, 80, 15, 11, 2, 10, 2},
 	//Fase 3:
-	{"Infecticidio", 120, 120, 21, 13, 3, 10, 2},
-	{"Anarquico descontrolado", 105, 105, 22, 13, 2, 12, 2},
-	{"Minotauro", 150, 150, 25, 17, 3, 10, 3}
+	{"Infecticidio", 120, 120, 19, 13, 3, 10, 2},
+	{"Anarquico descontrolado", 105, 105, 20, 13, 2, 12, 2},
+	{"Minotauro", 150, 150, 23, 17, 3, 10, 3}
 };
 
 
@@ -482,14 +507,14 @@ void ataqueHeroi (Heroi *p, Monstro *m) {
 			if (m->PVAtual < 0){
 				m->PVAtual = 0;
 			}
-			printf("\nVoce acertou!\n");
+			printf("Voce acertou!\n");
 			if (critico) {
 				printf("UM ACERTO CRITICO!\n");
 			}
-			printf("O dano causado foi de %d\n", dano);
+			printf("O dano causado foi de %d\n\n", dano);
 		}
 		else {
-			printf("Voce errou o/a %s\n", m->nome);
+			printf("Voce errou o/a %s\n\n", m->nome);
 		}
 	}
 	finalizarTurno(p);
@@ -512,10 +537,10 @@ void ataqueMonst (Heroi *p, Monstro *m) {
 		if (a->PVAtual < 0) {
 			a->PVAtual = 0;
 		}
-		printf("O/A %s te acerta e voce recebe %d de dano.\n",m->nome, dano);
+		printf("O/A %s te acerta e voce recebe %d de dano.\n\n",m->nome, dano);
 	}
 	else {
-		printf("Mas voce consegue evitar o ataque.\n");
+		printf("Mas voce consegue evitar o ataque.\n\n");
 	}
 	printf("Seu PV: %d:%d\n", a->PVAtual, a->PVMAX);
 }
@@ -537,7 +562,7 @@ void Combate (Heroi *p, Monstro *m) {
 		printf("Escolha: ");
 		if (scanf("%d", &escolha) != 1) {
 			printf("Escolha invalida, tente novamente.\n");
-			limparBuffer();
+			pausar();
 			escolha = 0;
 		}
 		switch (escolha) {
@@ -583,7 +608,7 @@ void Combate (Heroi *p, Monstro *m) {
 					a->PEAtual = a->PEMAX;
 				}
 				printf("Voce toma um ar e descansa um pouco o seu corpo recuperando um pouco de PE.\n");
-				printf("A criatura, vendo essa brecha, te ataca.\n");
+				printf("A criatura, vendo essa brecha, te ataca.\n\n");
 				ataqueMonst (p,m);
 				break;
 			case 5:
@@ -615,12 +640,14 @@ void Combate (Heroi *p, Monstro *m) {
 		}
 		if (m->PVAtual <= 0) {
 			printf("Voce derrotou o %s\n", m->nome);
+			pausar();
 			ganhoXP(p);
 			fimCombate(p);
 			combat = false;
 		}
 		else if (a->PVAtual <= 0) {
 			printf("Voce foi derrotado por %s\n", m->nome);
+			pausar();
 			fimCombate(p);
 			combat = false;
 		}
@@ -663,10 +690,11 @@ void salaCura (Heroi *p) {
 		a->PEAtual = a->PEMAX;
 	}
 	printf("Voce recuperou uma parte de seus PV e PE.\n");
+	pausar();
 }
 void salaRecompensa1 (Heroi *p) {
 	limparTela();
-	printf("Durante a exploracao do primeiro andar, voce encontra uma sala que possui relatórios sobre o paranormal e ganha XP.\n");
+	printf("Durante a exploracao do primeiro andar, voce encontra uma sala que possui relatorios sobre o paranormal e ganha XP.\n");
 	ganhoXP(p);
 }
 void salaRecompensa2 (Heroi *p, Arma *a) {
@@ -680,6 +708,7 @@ void salaRecompensa2 (Heroi *p, Arma *a) {
 		a->quantDado += 1;
 		printf("O dano do/a seu/sua %s subiu de %dd%d para %dd%d.\n", a->nome, a->quantDado - 1, a->tipoDado, a->quantDado, a->tipoDado);
 	}
+	pausar();
 }
 void salaRecompensa3 (Heroi *p, Arma *a) {
 	limparTela();
@@ -693,12 +722,14 @@ void salaRecompensa3 (Heroi *p, Arma *a) {
 		a->multi += 1;
 		printf("A margem de ameca do/a seu/sua %s passou de %d para %d e o multiplicador de critico de %d para %d.\n", a->nome, a->margemAmeaca - 1, a->margemAmeaca, a->multi - 1, a->multi);
 	}
+	pausar();
 }
 void visitarSalas (int *fase, int posicao, Heroi *p, bool *passagemLib) {
 	limparTela();
 	switch (fase[posicao]) {
 		case VAZIA: 
 			printf("Voce encontra uma sala vazia.\n");
+			pausar();
 			break;
 		case CURA:
 			salaCura(p);
@@ -792,11 +823,13 @@ void visitarSalas (int *fase, int posicao, Heroi *p, bool *passagemLib) {
 			printf("Voce encontra um cartao que da acesso ao proximo andar.\n");
 			*passagemLib = true;
 			fase[posicao] = VAZIA;
+			pausar();
 			break;
 		case PASSAGEM2:
-			printf("Voce encontra um arquivos onde está escrito o código para o proximo andar.\n");
+			printf("Voce encontra um arquivos onde esta escrito o codigo para o proximo andar.\n");
 			*passagemLib = true;
 			fase[posicao] = VAZIA;
+			pausar();
 			break;		
 	}
 }
@@ -805,29 +838,49 @@ void explorarFase1 (Heroi *p) {
 		VAZIA, VAZIA, COMBATE1, VAZIA, RECOMPENSA1, VAZIA,
 		COMBATE2, VAZIA, PASSAGEM1, VAZIA, COMBATE3, VAZIA
 	};
-	int mov, posicao = 0;
+	int mov, escolha1, posicao = 0;
 	bool passagemLib = false;
+	bool escolha2 = false;
 	Atributos *a = obterAtributos(p);
 	printf("\n------PRIMEIRO ANDAR------\n");
-	printf("OBJETIVO: Encontrar o cartao de acesso para o proximo andar\n");
-	while (!passagemLib && a->PVAtual > 0) {
-		limparBuffer();
+	printf("OBJETIVO: Encontrar o cartao de acesso para o proximo andar\n\n");
+	pausar();
+	while (!escolha2 && a->PVAtual > 0) {
 		limparTela();
-		printf("Precione <ENTER> para se movimentar\n");
-		getchar();
 		mov = Dados(6);
 		posicao += mov;
 		if (posicao >= 11) {
 			posicao = 11;
-			if (passagemLib == false) {
-				printf("Voce encontra o elevador para o próximo andar, mas ele exige um cartao de acesso que voce nao possui.\n");
-				printf("Voce decide voltar para a primeira sala para procurar de novo.\n");
-				posicao = 0;
-				continue;
-			}
 		}
 		printf("Voce avancou %d salas.\n", mov);
 		printf("Posicao atual: %d.\n", posicao + 1);
+		pausar();
+		if ((posicao == 11) && (passagemLib == false)) {
+			printf("Voce encontra o elevador para o proximo andar, mas ele exige um cartao de acesso que voce nao possui.\n");
+			printf("Voce decide voltar para a primeira sala para procurar de novo.\n");
+			pausar();
+			posicao = 0;
+			continue;
+		}
+		else if ((posicao == 11) && (passagemLib == true)) {
+			do {
+				printf("Voce encontra o elevador, quer seguir para o proximo andar?\n");
+				printf("1 - Sim\n");
+				printf("2 - Nao\n");
+				scanf("%d", &escolha1);
+				if (escolha1 == 1) {
+					escolha2 = true;
+				}
+				else if (escolha1 == 2) {
+					escolha2 = false;
+					posicao = 0;
+				}
+				else {
+					printf("Opcao invalida, tente novamente.");
+					continue;
+				}
+			} while ((escolha1 != 1) && (escolha1 != 2));
+		}
 		visitarSalas(fase1, posicao, p, &passagemLib);
 	}
 }
@@ -836,29 +889,49 @@ void explorarFase2 (Heroi *p) {
 		VAZIA, VAZIA, CURA, RECOMPENSA2, VAZIA, COMBATE4,
 		PASSAGEM2, COMBATE5, VAZIA, COMBATE6, VAZIA, VAZIA
 	};
-	int mov, posicao = 0;
+	int mov, escolha1, posicao = 0;
 	bool passagemLib = false;
+	bool escolha2 = false;
 	Atributos *a = obterAtributos(p);
 	printf("\n------SEGUNDO ANDAR------\n");
-	printf("OBJETIVO: Encontre o codigo de acesso para o proximo andar.\n");
-	while (!passagemLib && a->PVAtual > 0) {
-		limparBuffer();
+	printf("OBJETIVO: Encontre o codigo de acesso para o proximo andar.\n\n");
+	pausar();
+	while (!escolha2 && a->PVAtual > 0) {
 		limparTela();
-		printf("Precione <ENTER> para se movimentar\n");
-		getchar();
 		mov = Dados(6);
 		posicao += mov;
 		if (posicao >= 11) {
 			posicao = 11;
-			if (passagemLib == false) {
-				printf("Voce encontra outro elevador, mas não entende o por que deles precisarem de dois, porem precisa de um codigo de acesso para usar esse elevador.\n");
-				printf("Derrotado pelo elevador, voce retorna a primeira sala para procurar o codigo.\n");
-				posicao = 0;
-				continue;
-			}
 		}
 		printf("Voce avancou %d salas.\n", mov);
 		printf("Posicao atual: %d.\n", posicao + 1);
+		pausar();
+		if ((posicao == 11) && (passagemLib == false)) {
+			printf("Voce encontra outro elevador, mas noo entende o por que deles precisarem de dois, porem precisa de um codigo de acesso para usar esse elevador.\n");
+			printf("Derrotado pelo elevador, voce retorna a primeira sala para procurar o codigo.\n");
+			pausar();
+			posicao = 0;
+			continue;
+		}
+		else if ((posicao == 11) && (passagemLib == true)) {
+			do {
+				printf("Voce encontra o elevador, quer seguir para o proximo andar?\n");
+				printf("1 - Sim\n");
+				printf("2 - Nao\n");
+				scanf("%d", &escolha1);
+				if (escolha1 == 1) {
+					escolha2 = true;
+				}
+				else if (escolha1 == 2) {
+					escolha2 = false;
+					posicao = 0;
+				}
+				else {
+					printf("Opcao invalida, tente novamente.");
+					continue;
+				}
+			} while ((escolha1 != 1) && (escolha1 != 2));
+		}
 		visitarSalas(fase2, posicao, p, &passagemLib);
 	}
 }
@@ -871,12 +944,10 @@ void explorarFase3 (Heroi *p) {
 	bool derrotarBoss = false;
 	Atributos *a = obterAtributos(p);
 	printf("\n------TERCEIRO ANDAR------\n");
-	printf("OBJETIVO: Derrote o minotauro no fim do terceiro andar.\n");
+	printf("OBJETIVO: Derrote o minotauro no fim do terceiro andar.\n\n");
+	pausar();
 	while (!derrotarBoss && a->PVAtual > 0) {
-		limparBuffer();
 		limparTela();
-		printf("Precione <ENTER> para se movimentar\n");
-		getchar();
 		mov = Dados(6);
 		posicao += mov;
 		if (posicao >= 11) {
@@ -893,6 +964,7 @@ void explorarFase3 (Heroi *p) {
 			}
 			else if (a->PVAtual > 0) {
 				printf("Voce foge do minotauro e decide tentar ver o que tem nas outras salas antes de ir enfrenta-lo novamente.\n");
+				pausar();
 				posicao = 0;
 				continue;
 			}
@@ -917,8 +989,8 @@ int main () {
 	heroi.nivel = 1;
 	heroi.XP = 0;
 	if (heroi.classe == 1) {
-		heroi.ficha.combatente.atributos.PVMAX = 41;
-		heroi.ficha.combatente.atributos.PVAtual = 41;
+		heroi.ficha.combatente.atributos.PVMAX = 45;
+		heroi.ficha.combatente.atributos.PVAtual = 45;
 		heroi.ficha.combatente.atributos.agilidade = 1;
 		heroi.ficha.combatente.atributos.forca = 3;
 		heroi.ficha.combatente.atributos.PEMAX = 13;
@@ -929,8 +1001,8 @@ int main () {
 		heroi.armaEquipada = escolherArma(armas);
 	}
 	else if (heroi.classe == 2) {
-		heroi.ficha.especialista.atributos.PVMAX = 29;
-		heroi.ficha.especialista.atributos.PVAtual = 29;
+		heroi.ficha.especialista.atributos.PVMAX = 33;
+		heroi.ficha.especialista.atributos.PVAtual = 33;
 		heroi.ficha.especialista.atributos.agilidade = 3;
 		heroi.ficha.especialista.atributos.forca = 2;
 		heroi.ficha.especialista.atributos.PEMAX = 16;
@@ -941,8 +1013,8 @@ int main () {
 		heroi.armaEquipada = escolherArma(armas);
 	}
 	else if (heroi.classe == 3) {
-		heroi.ficha.ocultista.atributos.PVMAX = 21;
-		heroi.ficha.ocultista.atributos.PVAtual = 21;
+		heroi.ficha.ocultista.atributos.PVMAX = 25;
+		heroi.ficha.ocultista.atributos.PVAtual = 25;
 		heroi.ficha.ocultista.atributos.agilidade = 2;
 		heroi.ficha.ocultista.atributos.forca = 1;
 		heroi.ficha.ocultista.atributos.PEMAX = 36;
@@ -954,6 +1026,7 @@ int main () {
 	Atributos *a = obterAtributos(&heroi);
 	limparTela();
 	printf("Voce chega em frente a uma instalacao de uma organizacao de cultistas, voce adentra sem pensar duas vezes. O ar gelado de dentro o/a atinge como se fosse uma pancada em seu rosto, mas segue em frente.\n");
+	pausar();
 	explorarFase1 (&heroi);
 	if (a->PVAtual <= 0) {
 		printf("No primeiro andar, serio isso?\n");
@@ -961,13 +1034,15 @@ int main () {
 	}
 	limparTela();
 	printf("Ao descer o elevador, voce ouve um grunido abafado que aumenta quanto mais o elevador desce. Voce esta perto.\n");
+	pausar();
 	explorarFase2 (&heroi);
 	if (a->PVAtual <= 0) {
-		printf("Voce se bem, mas ainda nao foi o suficiente.\n");
+		printf("Voce se saiu bem, mas ainda nao foi o suficiente.\n");
 		return 0;
 	}
 	limparTela();
 	printf("Quando voce desce para o terceiro andar, avista mais um monte de salas, voce solta um suspiro desacreditado e aquele rugido esta muito mais perto.\n");
+	pausar();
 	explorarFase3 (&heroi);
 	if (a->PVAtual <= 0) {
 		printf("Voce se saiu melhor do que eu esperava, orgulhe-se, voce ate que e bem fortinho.\n");
